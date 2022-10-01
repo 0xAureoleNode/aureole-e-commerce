@@ -1,8 +1,10 @@
+// import CategoryItem
 import CategoryItem from '../category-item/category-item.component';
 
 import './directory.styles.scss';
 
 const Directory = () => {
+  // Directory categories attribute
   const categories = [
     {
       id: 1,
@@ -32,6 +34,7 @@ const Directory = () => {
   ];
   return (
     <div className="directory-container">
+      {/* render categories on the page */}
       {categories.map((category) => (
         <CategoryItem key={category.id} category={category} />
       ))}
