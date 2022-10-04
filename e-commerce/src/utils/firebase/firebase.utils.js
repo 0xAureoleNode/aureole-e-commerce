@@ -20,6 +20,8 @@ import {
   setDoc,
   collection,
   writeBatch,
+  query,
+  getDocs,
 } from 'firebase/firestore';
 
 // upload these categories from that shop data up into the collections
@@ -75,6 +77,33 @@ export const addCollectionAndDocuments = async (
   console.log('done');
 };
 
+//  best isolate and minimize the impact
+export const getCategoriesAndDocuments = async () => {
+  // references : A reference is a lightweight object that just points to a location in your database.
+  // create references to the categories collection
+  const collectionRef = collection(db, 'categories');
+
+  // create a query against the categories collection
+  const q = query(collectionRef);
+
+  // Execute a query
+  // use get() to retrieve the results:
+  // getDocs() : Executes the query and returns the results as a QuerySnapshot.
+  const querySnapshot = await getDocs(q);
+  // A QuerySnapshot contains the results of a query. It can contain zero or more DocumentSnapshot objects.
+
+  // querySnapshot.docs will give an array of all of those individual documents inside
+  // ?
+  const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+    // distructure off the values of the data of docSnapshot
+    const { title, items } = docSnapshot.data();
+    acc[title.toLowerCase()] = items;
+    return acc;
+  }, []);
+
+  return categoryMap;
+};
+
 export const createUserDocumentFromAuth = async (
   userAuth,
   additionalInformation = {}
@@ -84,8 +113,6 @@ export const createUserDocumentFromAuth = async (
   const userDocRef = doc(db, 'users', userAuth.uid);
 
   const userSnapshot = await getDoc(userDocRef);
-  console.log(userSnapshot);
-  console.log(userSnapshot.exists());
 
   // check data exists
   if (!userSnapshot.exists()) {
