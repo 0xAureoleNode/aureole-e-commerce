@@ -31,7 +31,7 @@ const Navigation = () => {
 
         <NavLinksContainer>
           <NavLink to="/shop">SHOP</NavLink>
-          {/* when there is user render different => sign out */}
+
           {currentUser ? (
             <span className="nav-link" onClick={signOutAuthUser}>
               SIGN OUT
