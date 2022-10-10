@@ -14,6 +14,7 @@ import {
 
 const CartDropDown = () => {
   const { cartItems } = useContext(CartContext);
+
   const navigate = useNavigate();
 
   const goToCheckOutHandler = () => {
