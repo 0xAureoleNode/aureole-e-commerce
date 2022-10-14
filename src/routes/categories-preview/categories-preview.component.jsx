@@ -1,17 +1,12 @@
 import { useContext, Fragment } from 'react';
-import { CategoriesContext } from '../../components/contexts/categories.context';
+import { useSelector } from 'react-redux';
+
+import { selectCategoriesMap } from '../../store/categories/category.selector';
 
 import CategoryPreview from '../../components/category-preview/category-preview.component';
 
-/* 
-  Object.keys() returns an array whose elements are strings corresponding to the enumerable properties found directly upon object .
-  ["a", "b", "c"]
-  ["hats", "jackets", "mens", "sneakers", "womens"]
-*/
-
 const CategoriesPreview = () => {
-  const { categoriesMap } = useContext(CategoriesContext);
-
+  const categoriesMap = useSelector(selectCategoriesMap);
   return (
     <Fragment>
       {Object.keys(categoriesMap).map((title) => {
